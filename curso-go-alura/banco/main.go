@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type ContaCorrente struct {
 	titular    string
@@ -11,16 +9,21 @@ type ContaCorrente struct {
 	saldo      float64
 }
 
-func main() {
-	contaDoRafa := ContaCorrente{
-		titular:    "Rafa",
-		numAgencia: 589,
-		numConta:   123456,
-		saldo:      123.5,
+func (c *ContaCorrente) Sacar(saque float64) string {
+	podeSacar := saque <= c.saldo && saque > 0
+	if podeSacar {
+		c.saldo -= saque
+		return "Saque realizado com sucesso"
 	}
+	return "Não foi possível realizar o saque"
+}
 
-	contaDaBruna := ContaCorrente{"Bruna", 222, 111222, 200}
+func main() {
+	contaDaSilvia := ContaCorrente{}
+	contaDaSilvia.titular = "Silvia"
+	contaDaSilvia.saldo = 500
 
-	fmt.Println(contaDoRafa)
-	fmt.Println(contaDaBruna)
+	fmt.Println(contaDaSilvia.saldo)
+	fmt.Println(contaDaSilvia.Sacar(500))
+	fmt.Println(contaDaSilvia.saldo)
 }
