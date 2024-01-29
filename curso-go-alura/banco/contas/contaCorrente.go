@@ -1,26 +1,28 @@
 package contas
 
+import "EstudarGo/curso-go-alura/banco/clientes"
+
 type ContaCorrente struct {
-	Titular    string
+	Titular    clientes.Titular
 	NumAgencia int
 	NumConta   int
-	Saldo      float64
+	saldo      float64
 }
 
 func (c *ContaCorrente) Sacar(saque float64) (float64, string) {
-	if saque <= c.Saldo && saque > 0 {
-		c.Saldo -= saque
-		return c.Saldo, ""
+	if saque <= c.saldo && saque > 0 {
+		c.saldo -= saque
+		return c.saldo, ""
 	}
-	return c.Saldo, "Não foi possível realizar o saque"
+	return c.saldo, "Não foi possível realizar o saque"
 }
 
 func (c *ContaCorrente) Depositar(deposito float64) (float64, string) {
 	if deposito < 0 {
-		return c.Saldo, "Não foi possivel realizar o deposito"
+		return c.saldo, "Não foi possivel realizar o deposito"
 	}
-	c.Saldo += deposito
-	return c.Saldo, ""
+	c.saldo += deposito
+	return c.saldo, ""
 }
 
 func (c *ContaCorrente) Transferir(valor float64, destino *ContaCorrente) bool {
@@ -35,4 +37,8 @@ func (c *ContaCorrente) Transferir(valor float64, destino *ContaCorrente) bool {
 	}
 
 	return true
+}
+
+func (c *ContaCorrente) GetSaldo() float64 {
+	return c.saldo
 }

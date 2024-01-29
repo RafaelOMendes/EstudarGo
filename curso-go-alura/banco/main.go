@@ -1,29 +1,16 @@
 package main
 
 import (
+	"EstudarGo/curso-go-alura/banco/clientes"
 	"EstudarGo/curso-go-alura/banco/contas"
 	"fmt"
 )
 
 func main() {
-	contaDaSilvia := contas.ContaCorrente{Titular: "Silvia", Saldo: 300}
-	contaDoGustavo := contas.ContaCorrente{Titular: "Gustavo", Saldo: 100}
+	clienteDoBruno := clientes.Titular{Nome: "Bruno", CPF: "12345678900", Profissao: "Programador"}
 
-	status := contaDoGustavo.Transferir(200, &contaDaSilvia)
+	contaDoBruno := contas.ContaCorrente{Titular: clienteDoBruno, NumAgencia: 123, NumConta: 123456}
 
-	fmt.Println(status)
-	fmt.Println(contaDaSilvia)
-	fmt.Println(contaDoGustavo)
-
-	// saque, err := contaDaSilvia.Sacar(500)
-	// if err != "" {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(saque)
-
-	// deposito, err := contaDaSilvia.Depositar(100)
-	// if err != "" {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(deposito)
+	contaDoBruno.Depositar(-100)
+	fmt.Println(contaDoBruno.GetSaldo())
 }
