@@ -1,7 +1,7 @@
 package main
 
 import (
-	"curso-go/math"
+	"EstudarGo/curso-go-yt/hello/math"
 	"fmt"
 )
 
