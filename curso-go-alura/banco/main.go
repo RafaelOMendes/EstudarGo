@@ -1,16 +1,28 @@
 package main
 
 import (
-	"EstudarGo/curso-go-alura/banco/clientes"
 	"EstudarGo/curso-go-alura/banco/contas"
 	"fmt"
 )
 
+func PagarBoleto(conta verificarConta, valorBoleto float64) {
+	conta.Sacar(valorBoleto)
+}
+
+type verificarConta interface {
+	Sacar(valor float64) (float64, string)
+}
+
 func main() {
-	clienteDoBruno := clientes.Titular{Nome: "Bruno", CPF: "12345678900", Profissao: "Programador"}
+	contaDoDenis := contas.ContaPoupanca{}
+	contaDoDenis.Depositar(100)
+	PagarBoleto(&contaDoDenis, 60)
 
-	contaDoBruno := contas.ContaCorrente{Titular: clienteDoBruno, NumAgencia: 123, NumConta: 123456}
+	fmt.Println(contaDoDenis.GetSaldo())
 
-	contaDoBruno.Depositar(-100)
-	fmt.Println(contaDoBruno.GetSaldo())
+	contaDaLuiza := contas.ContaCorrente{}
+	contaDaLuiza.Depositar(200)
+	PagarBoleto(&contaDaLuiza, 150)
+
+	fmt.Println(contaDaLuiza.GetSaldo())
 }
