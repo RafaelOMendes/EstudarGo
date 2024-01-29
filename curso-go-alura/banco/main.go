@@ -1,47 +1,13 @@
 package main
 
-import "fmt"
-
-type ContaCorrente struct {
-	titular    string
-	numAgencia int
-	numConta   int
-	saldo      float64
-}
-
-func (c *ContaCorrente) Sacar(saque float64) (float64, string) {
-	if saque <= c.saldo && saque > 0 {
-		c.saldo -= saque
-		return c.saldo, ""
-	}
-	return c.saldo, "Não foi possível realizar o saque"
-}
-
-func (c *ContaCorrente) Depositar(deposito float64) (float64, string) {
-	if deposito < 0 {
-		return c.saldo, "Não foi possivel realizar o deposito"
-	}
-	c.saldo += deposito
-	return c.saldo, ""
-}
-
-func (c *ContaCorrente) Transferir(valor float64, destino *ContaCorrente) bool {
-	_, err := c.Sacar(valor)
-	if err != "" {
-		return false
-	}
-	_, err = destino.Depositar(valor)
-
-	if err != "" {
-		return false
-	}
-
-	return true
-}
+import (
+	"EstudarGo/curso-go-alura/banco/contas"
+	"fmt"
+)
 
 func main() {
-	contaDaSilvia := ContaCorrente{titular: "Silvia", saldo: 300}
-	contaDoGustavo := ContaCorrente{titular: "Gustavo", saldo: 100}
+	contaDaSilvia := contas.ContaCorrente{Titular: "Silvia", Saldo: 300}
+	contaDoGustavo := contas.ContaCorrente{Titular: "Gustavo", Saldo: 100}
 
 	status := contaDoGustavo.Transferir(200, &contaDaSilvia)
 
