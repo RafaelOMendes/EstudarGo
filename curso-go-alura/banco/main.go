@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"log"
-)
+import "fmt"
 
 type ContaCorrente struct {
 	titular    string
@@ -28,20 +25,39 @@ func (c *ContaCorrente) Depositar(deposito float64) (float64, string) {
 	return c.saldo, ""
 }
 
+func (c *ContaCorrente) Transferir(valor float64, destino *ContaCorrente) bool {
+	_, err := c.Sacar(valor)
+	if err != "" {
+		return false
+	}
+	_, err = destino.Depositar(valor)
+
+	if err != "" {
+		return false
+	}
+
+	return true
+}
+
 func main() {
-	contaDaSilvia := ContaCorrente{}
-	contaDaSilvia.titular = "Silvia"
-	contaDaSilvia.saldo = 500
+	contaDaSilvia := ContaCorrente{titular: "Silvia", saldo: 300}
+	contaDoGustavo := ContaCorrente{titular: "Gustavo", saldo: 100}
 
-	saque, err := contaDaSilvia.Sacar(500)
-	if err != "" {
-		log.Fatal(err)
-	}
-	fmt.Println(saque)
+	status := contaDoGustavo.Transferir(200, &contaDaSilvia)
 
-	deposito, err := contaDaSilvia.Depositar(100)
-	if err != "" {
-		log.Fatal(err)
-	}
-	fmt.Println(deposito)
+	fmt.Println(status)
+	fmt.Println(contaDaSilvia)
+	fmt.Println(contaDoGustavo)
+
+	// saque, err := contaDaSilvia.Sacar(500)
+	// if err != "" {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(saque)
+
+	// deposito, err := contaDaSilvia.Depositar(100)
+	// if err != "" {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(deposito)
 }
